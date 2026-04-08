@@ -5,581 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Subí tus fotos | Berni</title>
-  <meta name="description" content="Compartí tus fotos y videos de los 15 de Berni." />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Subí tus fotos | Berni" />
-  <meta property="og:description" content="Escaneá, entrá y subí tus fotos del cumple de Berni." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/logo.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg: #f6f0eb;
-      --bg-soft: #fbf7f3;
-      --card: rgba(255,255,255,0.72);
-      --text: #5d4b46;
-      --text-soft: #7f6963;
-      --accent: #b9898a;
-      --accent-2: #d8b6b0;
-      --line: rgba(185, 137, 138, 0.22);
-      --shadow: 0 10px 35px rgba(90, 60, 55, 0.10);
-      --radius: 24px;
-      --max: 980px;
-    }
-
-    *{
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html{
-      scroll-behavior: smooth;
-    }
-
     body{
+      margin:0;
       font-family: "Raleway", sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 32%),
-        linear-gradient(180deg, #f9f4f0 0%, #f5ede7 45%, #f8f2ed 100%);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before{
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 10% 15%, rgba(216,182,176,0.13) 0, rgba(216,182,176,0) 18%),
-        radial-gradient(circle at 90% 20%, rgba(185,137,138,0.08) 0, rgba(185,137,138,0) 18%),
-        radial-gradient(circle at 50% 90%, rgba(216,182,176,0.08) 0, rgba(216,182,176,0) 20%);
-      z-index: 0;
-    }
-
-    img{
-      max-width: 100%;
-      display: block;
-    }
-
-    a{
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .page{
-      position: relative;
-      z-index: 1;
-      width: min(100%, var(--max));
-      margin: 0 auto;
-      padding: 0 18px 60px;
-    }
-
-    .hero{
-      min-height: 100svh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 0 24px;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero-card{
-      width: 100%;
-      max-width: 760px;
-      background: rgba(255,255,255,0.46);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.55);
-      border-radius: 34px;
-      box-shadow: var(--shadow);
-      padding: 34px 20px 36px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-card::before{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
-      pointer-events: none;
-    }
-
-    .logo-wrap{
-      width: min(86%, 420px);
-      margin: 0 auto 20px;
-    }
-
-    .eyebrow{
-      font-size: 0.82rem;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-
-    h1, h2{
-      font-family: "Cormorant Garamond", serif;
-      font-weight: 600;
-      line-height: 1.05;
+      background: linear-gradient(180deg,#f9f4f0,#f5ede7);
+      color:#5d4b46;
+      text-align:center;
+      padding:20px;
     }
 
     h1{
-      font-size: clamp(2.5rem, 6vw, 4.8rem);
-      margin-bottom: 16px;
-      color: #7f5d5d;
+      font-family:"Cormorant Garamond",serif;
+      font-size:42px;
+      margin:10px 0;
     }
 
-    .hero-subtitle{
-      max-width: 580px;
-      margin: 0 auto 26px;
-      font-size: 1.02rem;
-      color: var(--text-soft);
+    p{
+      max-width:500px;
+      margin:0 auto 20px;
+      color:#7f6963;
     }
 
-    .hero-actions{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 20px;
+    .card{
+      background:white;
+      border-radius:25px;
+      padding:30px 20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      max-width:500px;
+      margin:20px auto;
+    }
+
+    .logo{
+      width:220px;
+      margin:0 auto 15px;
     }
 
     .btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 54px;
-      padding: 14px 26px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.01em;
-      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
-      cursor: pointer;
+      display:block;
+      margin:10px auto;
+      padding:15px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:600;
+      width:90%;
+      max-width:320px;
+      transition:0.2s;
+    }
+
+    .btn-main{
+      background:#b9898a;
+      color:white;
+    }
+
+    .btn-alt{
+      background:#f3e6e2;
+      color:#5d4b46;
     }
 
     .btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 12px 22px rgba(124, 85, 83, 0.12);
-    }
-
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), #c99d9f);
-      color: white;
-    }
-
-    .btn-secondary{
-      background: rgba(255,255,255,0.82);
-      color: var(--text);
-      border-color: rgba(185,137,138,0.18);
-    }
-
-    .hero-note{
-      margin-top: 20px;
-      font-size: 0.92rem;
-      color: var(--text-soft);
+      transform:translateY(-2px);
     }
 
     .divider{
-      width: min(100%, 520px);
-      margin: 26px auto;
-      opacity: 0.85;
-    }
-
-    .section{
-      padding: 20px 0 10px;
-      text-align: center;
-    }
-
-    .section-card{
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.55);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 30px 18px;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    .icon-circle{
-      width: 82px;
-      height: 82px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,236,233,0.92));
-      display: grid;
-      place-items: center;
-      color: var(--accent);
-      box-shadow: inset 0 0 0 1px rgba(185,137,138,0.12);
-    }
-
-    .icon-circle svg{
-      width: 36px;
-      height: 36px;
-      stroke-width: 1.7;
-    }
-
-    h2{
-      font-size: clamp(2rem, 4.4vw, 3rem);
-      margin-bottom: 10px;
-      color: #7a5a57;
-    }
-
-    .section p{
-      max-width: 670px;
-      margin: 0 auto;
-      color: var(--text-soft);
-      font-size: 1rem;
+      width:200px;
+      margin:20px auto;
+      opacity:0.7;
     }
 
     .steps{
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 26px;
+      margin-top:20px;
     }
 
     .step{
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(185,137,138,0.12);
-      border-radius: 20px;
-      padding: 18px 14px;
-      text-align: center;
-    }
-
-    .step-number{
-      width: 34px;
-      height: 34px;
-      margin: 0 auto 10px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(185,137,138,0.12);
-      color: #8f6461;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .step h3{
-      font-size: 1rem;
-      margin-bottom: 6px;
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .step p{
-      font-size: 0.92rem;
-      color: var(--text-soft);
-    }
-
-    .info-grid{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 26px;
-    }
-
-    .info-box{
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(185,137,138,0.12);
-      border-radius: 20px;
-      padding: 18px;
-      text-align: left;
-    }
-
-    .info-box h3{
-      font-size: 1rem;
-      margin-bottom: 8px;
-      color: #7c5d59;
-      font-weight: 700;
-    }
-
-    .info-box p{
-      margin: 0;
-      font-size: 0.94rem;
-      max-width: unset;
-    }
-
-    .cta-block{
-      margin-top: 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+      margin-bottom:15px;
+      font-size:14px;
     }
 
     .small{
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    .footer{
-      text-align: center;
-      padding-top: 24px;
-    }
-
-    .footer p{
-      color: var(--text-soft);
-      font-size: 0.92rem;
-    }
-
-    .floating-particles span{
-      position: absolute;
-      display: block;
-      border-radius: 999px;
-      background: rgba(216,182,176,0.18);
-      filter: blur(0.4px);
-      animation: floaty 10s linear infinite;
-    }
-
-    .floating-particles span:nth-child(1){ width: 10px; height: 10px; left: 8%; top: 16%; animation-duration: 12s; }
-    .floating-particles span:nth-child(2){ width: 8px; height: 8px; left: 88%; top: 20%; animation-duration: 9s; }
-    .floating-particles span:nth-child(3){ width: 12px; height: 12px; left: 14%; top: 72%; animation-duration: 13s; }
-    .floating-particles span:nth-child(4){ width: 9px; height: 9px; left: 84%; top: 76%; animation-duration: 11s; }
-    .floating-particles span:nth-child(5){ width: 6px; height: 6px; left: 50%; top: 10%; animation-duration: 8s; }
-
-    @keyframes floaty{
-      0%   { transform: translateY(0px); opacity: .25; }
-      50%  { transform: translateY(-10px); opacity: .55; }
-      100% { transform: translateY(0px); opacity: .25; }
-    }
-
-    @media (max-width: 760px){
-      .hero{
-        min-height: auto;
-        padding-top: 34px;
-      }
-
-      .hero-card{
-        padding: 28px 16px 30px;
-        border-radius: 28px;
-      }
-
-      .steps,
-      .info-grid{
-        grid-template-columns: 1fr;
-      }
-
-      .btn{
-        width: 100%;
-        max-width: 340px;
-      }
-
-      .logo-wrap{
-        width: min(92%, 340px);
-      }
+      font-size:13px;
+      color:#999;
+      margin-top:10px;
     }
   </style>
 </head>
+
 <body>
 
-  <main class="page">
+  <div class="card">
 
-    <section class="hero">
-      <div class="floating-particles" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
+    <!-- LOGO -->
+    <img src="images/logo.png" class="logo" alt="Berni">
 
-      <div class="hero-card">
-        <!-- LOGO -->
-        <div class="logo-wrap">
-          <img src="images/logo.png" alt="Logo de Berni" />
-        </div>
+    <h1>Subí tus fotos</h1>
 
-        <div class="eyebrow">Mis 15</div>
-        <h1>Subí tus fotos</h1>
+    <p>
+      ¿Sacaste fotos o videos en la fiesta?  
+      Subilos acá y ayudá a guardar este recuerdo 💖
+    </p>
 
-        <p class="hero-subtitle">
-          ¿Sacaste fotos o videos en la fiesta? Compartilos acá para que queden guardados
-          en el álbum de Berni y formen parte de este recuerdo tan especial.
-        </p>
+    <!-- BOTÓN PRINCIPAL -->
+    <a class="btn btn-main" href="https://photos.app.goo.gl/eWLx4AznVbaFUSiR8" target="_blank">
+      Subir fotos al álbum
+    </a>
 
-        <div class="hero-actions">
-          <a class="btn btn-primary album-link" href="#" target="_blank" rel="noopener noreferrer">
-            Abrir álbum y subir fotos
-          </a>
+    <!-- BOTÓN WHATSAPP -->
+    <a class="btn btn-alt" href="https://wa.me/5491167457458" target="_blank">
+      Enviar por WhatsApp
+    </a>
 
-          <a class="btn btn-secondary" href="#como-funciona">
-            Cómo funciona
-          </a>
-        </div>
+    <img src="images/divider1.svg" class="divider">
 
-        <p class="hero-note">
-          Es rápido, simple y está pensado para hacerlo directo desde tu celular.
-        </p>
-      </div>
-    </section>
+    <div class="steps">
+      <div class="step">1. Entrá al álbum</div>
+      <div class="step">2. Elegí tus fotos</div>
+      <div class="step">3. Subilas y listo</div>
+    </div>
 
-    <img class="divider" src="images/divider1.svg" alt="" />
+    <p class="small">
+      Si estás en iPhone, abrilo en Safari para mejor funcionamiento
+    </p>
 
-    <section class="section" id="como-funciona">
-      <div class="section-card">
-        <div class="icon-circle" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M12 16v-8"></path>
-            <path d="M8.5 11.5 12 8l3.5 3.5"></path>
-            <path d="M20 16.5v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1"></path>
-          </svg>
-        </div>
-
-        <h2>Cómo subirlas</h2>
-        <p>
-          Escaneás el QR, abrís el álbum y agregás tus fotos o videos. Todo queda reunido
-          en un solo lugar para que Berni pueda guardarlos y disfrutarlos después.
-        </p>
-
-        <div class="steps">
-          <article class="step">
-            <div class="step-number">1</div>
-            <h3>Entrá al álbum</h3>
-            <p>Tocá el botón principal y abrí el enlace de Google Photos.</p>
-          </article>
-
-          <article class="step">
-            <div class="step-number">2</div>
-            <h3>Elegí tus fotos</h3>
-            <p>Seleccioná una o varias imágenes y videos desde tu teléfono.</p>
-          </article>
-
-          <article class="step">
-            <div class="step-number">3</div>
-            <h3>Subilas</h3>
-            <p>Confirmá la carga y listo. Ya quedan en el álbum compartido.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <img class="divider" src="images/divider2.svg" alt="" />
-
-    <section class="section">
-      <div class="section-card">
-        <div class="icon-circle" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"></path>
-            <path d="M9.5 12l1.7 1.7L14.8 10"></path>
-          </svg>
-        </div>
-
-        <h2>Tu privacidad</h2>
-        <p>
-          Este link lleva únicamente al álbum compartido del evento. No da acceso a fotos
-          personales ni a otros contenidos de la cuenta.
-        </p>
-
-        <div class="info-grid">
-          <div class="info-box">
-            <h3>Qué sí podés hacer</h3>
-            <p>
-              Ver las fotos del álbum, sumar tus imágenes y colaborar con este recuerdo.
-            </p>
-          </div>
-
-          <div class="info-box">
-            <h3>Qué no vas a ver</h3>
-            <p>
-              No vas a acceder a otras fotos, carpetas ni archivos privados fuera de este álbum.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <img class="divider" src="images/divider3.svg" alt="" />
-
-    <section class="section">
-      <div class="section-card">
-        <div class="icon-circle" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
-            <path d="M8 9h8"></path>
-            <path d="M8 13h5"></path>
-          </svg>
-        </div>
-
-        <h2>Importante</h2>
-        <p>
-          Para colaborar con el álbum, Google puede pedirte iniciar sesión con tu cuenta.
-          En la mayoría de los teléfonos esto es rápido, especialmente si ya usás Gmail o Google Photos.
-        </p>
-
-        <div class="cta-block">
-          <a class="btn btn-primary album-link" href="#" target="_blank" rel="noopener noreferrer">
-            Ir al álbum de Berni
-          </a>
-          <p class="small">
-            Consejo: si estás desde iPhone, abrilo en Safari y seguí los pasos para agregar tus fotos.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <img class="divider" src="images/divider4.svg" alt="" />
-
-    <section class="section">
-      <div class="section-card">
-        <div class="icon-circle" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.63 2.62a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.46-1.29a2 2 0 0 1 2.11-.45c.84.3 1.72.51 2.62.63A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-        </div>
-
-        <h2>¿No pudiste subirlas?</h2>
-        <p>
-          Si en el momento no te resulta cómodo, guardalas y mandalas más tarde por el medio que prefieras.
-          También podés dejar un contacto alternativo como respaldo.
-        </p>
-
-        <div class="hero-actions" style="margin-top: 24px;">
-          <!-- OPCIONAL: reemplazá el número -->
-          <a class="btn btn-secondary" href="https://wa.me/5490000000000" target="_blank" rel="noopener noreferrer">
-            Enviar por WhatsApp
-          </a>
-
-          <a class="btn btn-primary album-link" href="#" target="_blank" rel="noopener noreferrer">
-            Probar de nuevo
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <img class="divider" src="images/divider2.svg" alt="" />
-      <p>
-        Gracias por ser parte de este momento tan especial ✨
-      </p>
-    </footer>
-
-  </main>
-
-  <script>
-    /*
-      PEGÁ ACÁ EL LINK DEL ÁLBUM COMPARTIDO DE GOOGLE PHOTOS
-      Ejemplo:
-      const ALBUM_URL = "https://photos.app.goo.gl/XXXXXXXXXXXX";
-    */
-    const ALBUM_URL = "https://photos.app.goo.gl/PEGAR_AQUI_TU_LINK";
-
-    // Asigna el link del álbum a todos los botones principales
-    document.querySelectorAll(".album-link").forEach(link => {
-      link.href = ALBUM_URL;
-    });
-  </script>
+  </div>
 
 </body>
 </html>
