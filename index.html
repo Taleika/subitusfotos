@@ -5,131 +5,502 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Subí tus fotos | Berni</title>
+  <meta name="description" content="Compartí tus fotos y videos de los 15 de Berni." />
+  <meta property="og:title" content="Subí tus fotos | Berni" />
+  <meta property="og:description" content="Escaneá y subí tus fotos del cumple de Berni." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/logo.png" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    body{
+    :root{
+      --bg1:#f9f4f0;
+      --bg2:#f5ede7;
+      --card:rgba(255,255,255,0.68);
+      --text:#5d4b46;
+      --text-soft:#7f6963;
+      --accent:#b9898a;
+      --accent2:#d8b6b0;
+      --line:rgba(185,137,138,0.18);
+      --shadow:0 12px 35px rgba(93,75,70,0.10);
+      --radius:28px;
+      --max:880px;
+    }
+
+    *{
+      box-sizing:border-box;
       margin:0;
-      font-family: "Raleway", sans-serif;
-      background: linear-gradient(180deg,#f9f4f0,#f5ede7);
-      color:#5d4b46;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Raleway", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 30%),
+        linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 50%, var(--bg1) 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(216,182,176,0.14) 0, rgba(216,182,176,0) 18%),
+        radial-gradient(circle at 88% 22%, rgba(185,137,138,0.10) 0, rgba(185,137,138,0) 18%),
+        radial-gradient(circle at 50% 90%, rgba(216,182,176,0.08) 0, rgba(216,182,176,0) 20%);
+      z-index:0;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .page{
+      position:relative;
+      z-index:1;
+      width:min(100%, var(--max));
+      margin:0 auto;
+      padding:24px 18px 56px;
+    }
+
+    .hero{
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       text-align:center;
-      padding:20px;
+      padding:24px 0;
+      position:relative;
+    }
+
+    .hero-card,
+    .section-card{
+      background:var(--card);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.5);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+      animation:fadeUp 1s ease both;
+    }
+
+    .hero-card{
+      width:100%;
+      max-width:760px;
+      padding:34px 22px 34px;
+      position:relative;
+    }
+
+    .hero-card::before,
+    .section-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0));
+      pointer-events:none;
+    }
+
+    .logo-wrap{
+      width:min(84%, 380px);
+      margin:0 auto 18px;
+      animation:floatSoft 5s ease-in-out infinite;
+    }
+
+    .eyebrow{
+      font-size:0.8rem;
+      letter-spacing:0.24em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:10px;
+    }
+
+    h1,h2{
+      font-family:"Cormorant Garamond", serif;
+      line-height:1.05;
+      font-weight:600;
     }
 
     h1{
-      font-family:"Cormorant Garamond",serif;
-      font-size:42px;
-      margin:10px 0;
+      font-size:clamp(2.8rem, 7vw, 5rem);
+      color:#7c5d59;
+      margin-bottom:14px;
     }
 
-    p{
-      max-width:500px;
-      margin:0 auto 20px;
-      color:#7f6963;
+    h2{
+      font-size:clamp(2rem, 5vw, 3rem);
+      color:#7c5d59;
+      margin-bottom:10px;
     }
 
-    .card{
-      background:white;
-      border-radius:25px;
-      padding:30px 20px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.08);
-      max-width:500px;
-      margin:20px auto;
+    .hero p,
+    .section-card p{
+      color:var(--text-soft);
+      max-width:620px;
+      margin:0 auto;
     }
 
-    .logo{
-      width:220px;
-      margin:0 auto 15px;
+    .hero p{
+      font-size:1rem;
+    }
+
+    .hero-actions,
+    .secondary-actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:12px;
+      margin-top:24px;
     }
 
     .btn{
-      display:block;
-      margin:10px auto;
-      padding:15px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:54px;
+      padding:14px 26px;
       border-radius:999px;
-      text-decoration:none;
       font-weight:600;
-      width:90%;
-      max-width:320px;
-      transition:0.2s;
-    }
-
-    .btn-main{
-      background:#b9898a;
-      color:white;
-    }
-
-    .btn-alt{
-      background:#f3e6e2;
-      color:#5d4b46;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+      border:1px solid transparent;
+      cursor:pointer;
     }
 
     .btn:hover{
       transform:translateY(-2px);
+      box-shadow:0 12px 24px rgba(93,75,70,0.10);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--accent), #c99d9f);
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,0.78);
+      color:var(--text);
+      border-color:var(--line);
+    }
+
+    .hero-note{
+      margin-top:18px;
+      font-size:0.92rem;
+      color:var(--text-soft);
     }
 
     .divider{
-      width:200px;
-      margin:20px auto;
-      opacity:0.7;
+      width:min(100%, 460px);
+      margin:24px auto;
+      opacity:0.85;
+      animation:fadeIn 1.2s ease both;
+    }
+
+    .section{
+      padding:6px 0;
+      text-align:center;
+    }
+
+    .section-card{
+      position:relative;
+      padding:28px 18px 30px;
+      max-width:840px;
+      margin:0 auto;
+    }
+
+    .icon-circle{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      margin:0 auto 16px;
+      display:grid;
+      place-items:center;
+      color:var(--accent);
+      background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,236,233,0.92));
+      box-shadow:inset 0 0 0 1px rgba(185,137,138,0.12);
+      animation:floatSoft 6s ease-in-out infinite;
+    }
+
+    .icon-circle svg{
+      width:34px;
+      height:34px;
+      stroke-width:1.7;
     }
 
     .steps{
-      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin-top:24px;
     }
 
     .step{
-      margin-bottom:15px;
-      font-size:14px;
+      background:rgba(255,255,255,0.72);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px 14px;
+      animation:fadeUp .9s ease both;
     }
 
-    .small{
-      font-size:13px;
-      color:#999;
+    .step:nth-child(2){ animation-delay:.08s; }
+    .step:nth-child(3){ animation-delay:.16s; }
+
+    .step-number{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:0 auto 10px;
+      background:rgba(185,137,138,0.12);
+      color:#8f6461;
+      font-weight:700;
+      font-size:0.95rem;
+    }
+
+    .step h3{
+      font-size:1rem;
+      margin-bottom:6px;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .step p{
+      font-size:0.92rem;
+      margin:0;
+    }
+
+    .mini-note{
+      margin-top:16px;
+      font-size:0.92rem;
+      color:var(--text-soft);
+    }
+
+    .footer-note{
+      font-size:0.9rem;
+      color:var(--text-soft);
       margin-top:10px;
+    }
+
+    .particles span{
+      position:absolute;
+      border-radius:999px;
+      background:rgba(216,182,176,0.18);
+      animation:floaty 10s linear infinite;
+      pointer-events:none;
+    }
+
+    .particles span:nth-child(1){ width:10px;height:10px;left:8%;top:18%;animation-duration:12s; }
+    .particles span:nth-child(2){ width:8px;height:8px;left:90%;top:22%;animation-duration:9s; }
+    .particles span:nth-child(3){ width:12px;height:12px;left:14%;top:78%;animation-duration:13s; }
+    .particles span:nth-child(4){ width:9px;height:9px;left:84%;top:76%;animation-duration:11s; }
+    .particles span:nth-child(5){ width:6px;height:6px;left:50%;top:12%;animation-duration:8s; }
+
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform:translateY(22px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes fadeIn{
+      from{ opacity:0; }
+      to{ opacity:.85; }
+    }
+
+    @keyframes floatSoft{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-6px); }
+    }
+
+    @keyframes floaty{
+      0%{ transform:translateY(0px); opacity:.2; }
+      50%{ transform:translateY(-10px); opacity:.55; }
+      100%{ transform:translateY(0px); opacity:.2; }
+    }
+
+    @media (max-width:760px){
+      .hero{
+        min-height:auto;
+        padding-top:20px;
+      }
+
+      .hero-card{
+        padding:28px 16px 30px;
+      }
+
+      .steps{
+        grid-template-columns:1fr;
+      }
+
+      .btn{
+        width:100%;
+        max-width:340px;
+      }
+
+      .logo-wrap{
+        width:min(92%, 330px);
+      }
     }
   </style>
 </head>
-
 <body>
 
-  <div class="card">
+  <main class="page">
 
-    <!-- LOGO -->
-    <img src="images/logo.png" class="logo" alt="Berni">
+    <section class="hero">
+      <div class="particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
 
-    <h1>Subí tus fotos</h1>
+      <div class="hero-card">
+        <div class="logo-wrap">
+          <img src="images/logo.png" alt="Logo de Berni">
+        </div>
 
-    <p>
-      ¿Sacaste fotos o videos en la fiesta?  
-      Subilos acá y ayudá a guardar este recuerdo 💖
-    </p>
+        <div class="eyebrow">Mis 15</div>
+        <h1>Subí tus fotos</h1>
 
-    <!-- BOTÓN PRINCIPAL -->
-    <a class="btn btn-main" href="https://photos.app.goo.gl/eWLx4AznVbaFUSiR8" target="_blank">
-      Subir fotos al álbum
-    </a>
+        <p>
+          ¿Sacaste fotos o videos en la fiesta? Compartilos acá para que queden guardados
+          en el álbum de Berni y formen parte de este recuerdo tan especial.
+        </p>
 
-    <!-- BOTÓN WHATSAPP -->
-    <a class="btn btn-alt" href="https://wa.me/5491167457458" target="_blank">
-      Enviar por WhatsApp
-    </a>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://photos.app.goo.gl/eWLx4AznVbaFUSiR8" target="_blank" rel="noopener noreferrer">
+            Abrir álbum y subir fotos
+          </a>
 
-    <img src="images/divider1.svg" class="divider">
+          <a class="btn btn-secondary" href="#como-funciona">
+            Cómo funciona
+          </a>
+        </div>
 
-    <div class="steps">
-      <div class="step">1. Entrá al álbum</div>
-      <div class="step">2. Elegí tus fotos</div>
-      <div class="step">3. Subilas y listo</div>
-    </div>
+        <p class="hero-note">
+          Es simple, rápido y está pensado para hacerlo directo desde tu celular.
+        </p>
+      </div>
+    </section>
 
-    <p class="small">
-      Si estás en iPhone, abrilo en Safari para mejor funcionamiento
-    </p>
+    <img class="divider" src="images/divider1.svg" alt="">
 
-  </div>
+    <section class="section" id="como-funciona">
+      <div class="section-card">
+        <div class="icon-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 16v-8"></path>
+            <path d="M8.5 11.5 12 8l3.5 3.5"></path>
+            <path d="M20 16.5v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1"></path>
+          </svg>
+        </div>
+
+        <h2>Cómo funciona</h2>
+        <p>
+          Entrás al álbum, elegís tus fotos o videos y los subís. Todo queda reunido
+          en un mismo lugar para guardar este recuerdo.
+        </p>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h3>Entrá al álbum</h3>
+            <p>Tocá el botón principal y abrí el enlace de Google Photos.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">2</div>
+            <h3>Elegí tus fotos</h3>
+            <p>Seleccioná una o varias imágenes y videos desde tu teléfono.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">3</div>
+            <h3>Subilas</h3>
+            <p>Confirmá la carga y listo. Ya quedan en el álbum compartido.</p>
+          </article>
+        </div>
+
+        <p class="mini-note">
+          Si estás desde iPhone, abrirlo en Safari suele funcionar mejor.
+        </p>
+      </div>
+    </section>
+
+    <img class="divider" src="images/divider2.svg" alt="">
+
+    <section class="section">
+      <div class="section-card">
+        <div class="icon-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
+            <path d="M8 9h8"></path>
+            <path d="M8 13h5"></path>
+          </svg>
+        </div>
+
+        <h2>Importante</h2>
+        <p>
+          En algunos teléfonos Google puede pedirte iniciar sesión para colaborar con el álbum.
+          Si ya usás Gmail o Google Photos, normalmente es muy rápido.
+        </p>
+
+        <div class="secondary-actions">
+          <a class="btn btn-primary" href="https://photos.app.goo.gl/eWLx4AznVbaFUSiR8" target="_blank" rel="noopener noreferrer">
+            Ir al álbum de Berni
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <img class="divider" src="images/divider3.svg" alt="">
+
+    <section class="section">
+      <div class="section-card">
+        <div class="icon-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.63 2.62a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.46-1.29a2 2 0 0 1 2.11-.45c.84.3 1.72.51 2.62.63A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </div>
+
+        <h2>¿No pudiste subirlas?</h2>
+        <p>
+          Como última opción, también podés enviarlas por WhatsApp.
+        </p>
+
+        <div class="secondary-actions">
+          <a class="btn btn-secondary" href="https://wa.me/5491167457458" target="_blank" rel="noopener noreferrer">
+            Enviar por WhatsApp
+          </a>
+        </div>
+
+        <p class="footer-note">
+          Gracias por ser parte de este momento tan especial ✨
+        </p>
+      </div>
+    </section>
+
+    <img class="divider" src="images/divider4.svg" alt="">
+
+  </main>
 
 </body>
 </html>
