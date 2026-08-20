@@ -117,7 +117,7 @@
         const eventBytes = photos.reduce((sum,p)=>sum+p.metadata.size,0), totalBytes = totalMetadata.reduce((sum,m)=>sum+m.size,0);
         ui.count.textContent=photos.length;ui.eventStorage.textContent=formatBytes(eventBytes);ui.totalStorage.textContent=formatBytes(totalBytes);ui.bar.style.width=`${Math.min(100,totalBytes/FREE_REFERENCE_BYTES*100)}%`;
         renderGallery(); setNotice(photos.length?"Galería actualizada.":"Todavía no hay fotos en este evento.",photos.length?"ok":"");
-      } catch(error){console.error(error);setNotice("No pudimos leer Storage. Revisá el acceso y las reglas.","bad");}
+      } catch(error){console.error(error);setNotice(`No pudimos leer Storage (${error.code||"error desconocido"}). Revisá las reglas y App Check.`,"bad");}
       finally{setBusy(ui.refresh,false)}
     }
 
