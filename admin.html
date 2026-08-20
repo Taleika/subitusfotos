@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="theme-color" content="#282924">
   <meta name="robots" content="noindex,nofollow">
   <title>Panel de fotos | Taleika Films</title>
@@ -70,10 +73,10 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
     import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check.js";
-    import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+    import { browserLocalPersistence, getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
     import { getStorage, ref, listAll, getMetadata, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-storage.js";
     import { downloadZip } from "https://cdn.jsdelivr.net/npm/client-zip@2.5.0/index.js";
-    import { EVENT_CONFIG } from "./event-config.js";
+    import { EVENT_CONFIG } from "./event-config.js?v=20260820-2";
 
     const ADMIN_EMAIL = "ferpache8@gmail.com";
     const FREE_REFERENCE_BYTES = 5 * 1024 * 1024 * 1024;
@@ -92,7 +95,7 @@
     const $ = (s) => document.querySelector(s);
     const ui = {login:$("#loginView"),dashboard:$("#dashboard"),loginButton:$("#loginButton"),logout:$("#logoutButton"),loginNotice:$("#loginNotice"),notice:$("#notice"),gallery:$("#gallery"),count:$("#photoCount"),eventStorage:$("#eventStorage"),totalStorage:$("#totalStorage"),bar:$("#storageBar"),refresh:$("#refreshButton"),download:$("#downloadButton"),delete:$("#deleteButton"),dialog:$("#deleteDialog"),confirmDelete:$("#confirmDelete")};
     $("#eventId").textContent = EVENT_CONFIG.id; $("#deleteEventName").textContent = EVENT_CONFIG.id;
-    let photos = [];
+    let photos = [], loginInProgress = false, galleryLoadedForUid = "";
 
     const formatBytes = (n) => n < 1024*1024 ? `${Math.round(n/1024)} KB` : n < 1024*1024*1024 ? `${(n/1024/1024).toFixed(1)} MB` : `${(n/1024/1024/1024).toFixed(2)} GB`;
     const setNotice = (text,type="") => {ui.notice.textContent=text;ui.notice.className=`notice ${type}`};
@@ -141,12 +144,44 @@
       finally{setBusy(ui.delete,false)}
     }
 
-    ui.loginButton.addEventListener("click",async()=>{ui.loginNotice.textContent="";try{await signInWithPopup(auth,provider)}catch(error){console.error(error);ui.loginNotice.textContent="No pudimos iniciar sesión.";ui.loginNotice.className="notice bad"}});
+    function showLoginMessage(text,type=""){
+      ui.loginNotice.textContent=text;ui.loginNotice.className=`notice ${type}`;
+    }
+
+    ui.loginButton.addEventListener("click",async()=>{
+      if(loginInProgress)return;
+      loginInProgress=true;ui.loginButton.disabled=true;showLoginMessage("Abriendo el acceso de Google…");
+      try{
+        if(auth.currentUser?.isAnonymous)await signOut(auth);
+        await setPersistence(auth,browserLocalPersistence);
+        const result=await signInWithPopup(auth,provider);
+        if(result.user.email?.toLowerCase()!==ADMIN_EMAIL){await signOut(auth);showLoginMessage(`La cuenta ${result.user.email||"seleccionada"} no está autorizada.`,"bad")}
+      }catch(error){
+        console.error(error);
+        const messages={
+          "auth/popup-blocked":"El navegador bloqueó la ventana de Google. Permití ventanas emergentes y volvé a intentar.",
+          "auth/popup-closed-by-user":"Se cerró la ventana de Google antes de completar el acceso.",
+          "auth/cancelled-popup-request":"Ya había una ventana de acceso abierta. Volvé a intentar."
+        };
+        showLoginMessage(messages[error.code]||`No pudimos iniciar sesión (${error.code||"error desconocido"}).`,"bad");
+      }finally{loginInProgress=false;ui.loginButton.disabled=false}
+    });
     ui.logout.addEventListener("click",()=>signOut(auth));ui.refresh.addEventListener("click",loadGallery);ui.download.addEventListener("click",downloadAll);ui.delete.addEventListener("click",()=>ui.dialog.showModal());$("#cancelDelete").addEventListener("click",()=>ui.dialog.close());ui.confirmDelete.addEventListener("click",deleteAll);
     onAuthStateChanged(auth,async(user)=>{
+      if(user?.isAnonymous){
+        ui.login.hidden=false;ui.dashboard.hidden=true;ui.logout.hidden=true;
+        if(!loginInProgress)await signOut(auth);
+        return;
+      }
       const allowed=user?.email?.toLowerCase()===ADMIN_EMAIL;
-      if(user&&!allowed){await signOut(auth);ui.loginNotice.textContent="Esta cuenta no está autorizada.";ui.loginNotice.className="notice bad";return}
-      ui.login.hidden=allowed;ui.dashboard.hidden=!allowed;ui.logout.hidden=!allowed;if(allowed)loadGallery();
+      if(user&&!allowed){
+        await signOut(auth);
+        showLoginMessage(`La cuenta ${user.email||"seleccionada"} no está autorizada.`,"bad");
+        return;
+      }
+      ui.login.hidden=allowed;ui.dashboard.hidden=!allowed;ui.logout.hidden=!allowed;
+      if(allowed&&galleryLoadedForUid!==user.uid){galleryLoadedForUid=user.uid;showLoginMessage("");loadGallery()}
+      if(!allowed)galleryLoadedForUid="";
     });
   </script>
 </body>
