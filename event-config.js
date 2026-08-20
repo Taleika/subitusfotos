@@ -6,5 +6,5 @@ export const EVENT_CONFIG = {
     "Tus fotos pueden formar parte del video que Taleika está creando durante la fiesta.",
   uploadEnabled: true,
   maxFileSizeMb: 30,
-  minLongEdgePx: 1920,
+  minLongEdgePx: 0,
 };

@@ -88,7 +88,7 @@
             <input id="fileInput" type="file" accept="image/*,.heic,.heif" multiple>
           </div>
           <div class="requirements" aria-label="Requisitos">
-            <span>Calidad original</span><span>Hasta 30 MB cada una</span><span>Mínimo 1920 px</span><span>Solo fotos</span>
+            <span>Calidad original</span><span>Hasta 30 MB cada una</span><span>Cualquier resolución</span><span>Solo fotos</span>
           </div>
           <div class="queue" id="queue" aria-live="polite"></div>
           <div class="actions" id="actions" hidden>
@@ -179,7 +179,7 @@
       if (file.size > EVENT_CONFIG.maxFileSizeMb * 1024 * 1024) return `Supera ${EVENT_CONFIG.maxFileSizeMb} MB`;
       try {
         const dimensions = await imageDimensions(file);
-        if (Math.max(dimensions.width, dimensions.height) < EVENT_CONFIG.minLongEdgePx) return `Tiene menos de ${EVENT_CONFIG.minLongEdgePx} px`;
+        if (EVENT_CONFIG.minLongEdgePx > 0 && Math.max(dimensions.width, dimensions.height) < EVENT_CONFIG.minLongEdgePx) return `Tiene menos de ${EVENT_CONFIG.minLongEdgePx} px`;
       } catch (error) {
         if (!isHeic) return "No pudimos leer esta imagen";
       }
