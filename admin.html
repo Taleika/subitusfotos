@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#282924">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Panel de fotos | Taleika Films</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#282924;--paper:#fff;--soft:#f4f4f3;--line:#dededb;--muted:#777772;--magenta:#c4029d;--bad:#b92f48;--ok:#16845b}
+    *{box-sizing:border-box}body{margin:0;background:var(--soft);color:var(--ink);font-family:Roboto,Arial,sans-serif;font-weight:300}button{font:inherit;cursor:pointer}
+    header{position:sticky;top:0;z-index:10;background:rgba(40,41,36,.96);color:#fff;border-bottom:6px solid var(--magenta);padding:14px clamp(18px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:20px;backdrop-filter:blur(10px)}
+    .brand{display:flex;align-items:center;gap:14px}.brand img{width:44px;height:58px;object-fit:contain;filter:invert(1)}.brand strong{font-size:1rem;letter-spacing:.18em;text-transform:uppercase}.brand span{display:block;color:#bdbdb9;font-size:.72rem;letter-spacing:.08em;margin-top:2px}
+    .container{width:min(1280px,calc(100% - 32px));margin:32px auto 70px}.login{width:min(520px,100%);margin:14vh auto;background:#fff;border-radius:22px;padding:40px;box-shadow:0 22px 60px rgba(0,0,0,.12);text-align:center}.login img{width:100px;margin-bottom:18px}.login h1{font-size:2rem;margin:0 0 10px}.login p{color:var(--muted);line-height:1.5;margin:0 0 24px}
+    .btn{border:0;border-radius:999px;padding:13px 22px;font-weight:700;transition:.2s ease}.btn:hover:not(:disabled){transform:translateY(-2px)}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--magenta);color:#fff}.dark{background:var(--ink);color:#fff}.light{background:#fff;border:1px solid var(--line);color:var(--ink)}.danger{background:var(--bad);color:#fff}.small{padding:9px 15px;font-size:.8rem}
+    .topline{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.topline h1{font-size:clamp(2rem,4vw,3.8rem);line-height:1;margin:0 0 8px;letter-spacing:-.04em}.topline p{margin:0;color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px}.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:19px}.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}.stat-value{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:700;margin-top:6px}.storage-bar{height:7px;border-radius:10px;background:#e9e8e7;overflow:hidden;margin-top:10px}.storage-bar span{display:block;height:100%;width:0;background:var(--magenta);transition:width .4s ease}
+    .notice{min-height:22px;color:var(--muted);margin:0 0 14px}.notice.ok{color:var(--ok);font-weight:500}.notice.bad{color:var(--bad);font-weight:500}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}.photo{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}.photo img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#e8e8e5;display:block}.photo-info{padding:10px}.photo-name{font-size:.77rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.photo-meta{font-size:.7rem;color:var(--muted);margin-top:4px}.photo a{display:block;color:var(--magenta);font-size:.75rem;font-weight:700;text-decoration:none;margin-top:8px}.empty{grid-column:1/-1;text-align:center;padding:70px 20px;background:#fff;border:1px dashed #bbb;border-radius:18px;color:var(--muted)}
+    dialog{border:0;border-radius:18px;padding:0;max-width:480px;width:calc(100% - 30px);box-shadow:0 24px 80px rgba(0,0,0,.3)}dialog::backdrop{background:rgba(0,0,0,.62)}.dialog-content{padding:27px}.dialog-content h2{margin:0 0 10px}.dialog-content p{color:var(--muted);line-height:1.5}.dialog-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+    .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:-4px;margin-right:8px;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    [hidden]{display:none!important}@media(max-width:760px){header{position:relative}.brand strong{font-size:.8rem}.container{margin-top:22px}.topline{align-items:stretch;flex-direction:column}.actions{justify-content:stretch}.actions .btn{flex:1}.stats{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.photo-info{padding:8px}.login{margin-top:8vh;padding:28px 20px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="images/taleika-logo.svg" alt=""><div><strong>Taleika Films</strong><span>Panel de fotos</span></div></div>
+    <button class="btn light small" id="logoutButton" type="button" hidden>Salir</button>
+  </header>
+
+  <main class="container">
+    <section class="login" id="loginView">
+      <img src="images/taleika-logo.svg" alt="Taleika Films">
+      <h1>Panel privado</h1>
+      <p>Ingresá con la cuenta autorizada de Taleika para ver, descargar y limpiar las fotos.</p>
+      <button class="btn primary" id="loginButton" type="button">Entrar con Google</button>
+      <p class="notice" id="loginNotice"></p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <div class="topline">
+        <div><h1>Fotos de la fiesta</h1><p>Carpeta activa: <strong id="eventId"></strong></p></div>
+        <div class="actions">
+          <button class="btn light" id="refreshButton" type="button">Actualizar</button>
+          <button class="btn dark" id="downloadButton" type="button">Descargar todas (.zip)</button>
+          <button class="btn danger" id="deleteButton" type="button">Eliminar todas</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Fotos del evento</div><div class="stat-value" id="photoCount">0</div></div>
+        <div class="stat"><div class="stat-label">Espacio del evento</div><div class="stat-value" id="eventStorage">0 MB</div></div>
+        <div class="stat"><div class="stat-label">Storage total estimado</div><div class="stat-value" id="totalStorage">0 MB</div><div class="storage-bar" title="Referencia sobre 5 GB"><span id="storageBar"></span></div></div>
+      </div>
+      <p class="notice" id="notice" role="status" aria-live="polite"></p>
+      <div class="gallery" id="gallery"></div>
+    </section>
+  </main>
+
+  <dialog id="deleteDialog">
+    <div class="dialog-content">
+      <h2>¿Eliminar todas las fotos?</h2>
+      <p>Se borrarán definitivamente todas las fotos de <strong id="deleteEventName"></strong>. Esta acción no se puede deshacer. Descargá el ZIP antes de continuar.</p>
+      <div class="dialog-actions"><button class="btn light" id="cancelDelete" type="button">Cancelar</button><button class="btn danger" id="confirmDelete" type="button">Sí, eliminar todo</button></div>
+    </div>
+  </dialog>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+    import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check.js";
+    import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+    import { getStorage, ref, listAll, getMetadata, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-storage.js";
+    import { downloadZip } from "https://cdn.jsdelivr.net/npm/client-zip@2.5.0/index.js";
+    import { EVENT_CONFIG } from "./event-config.js";
+
+    const ADMIN_EMAIL = "ferpache8@gmail.com";
+    const FREE_REFERENCE_BYTES = 5 * 1024 * 1024 * 1024;
+    const firebaseConfig = {
+      apiKey: "AIzaSyBaZ_DBiizR_GC95K7Mdw8y_-sj7L6RTnw",
+      authDomain: "taleika-subitusfotos.firebaseapp.com",
+      projectId: "taleika-subitusfotos",
+      storageBucket: "taleika-subitusfotos.firebasestorage.app",
+      messagingSenderId: "216361123825",
+      appId: "1:216361123825:web:a98bb6d09c2b564ee9ce50"
+    };
+    const app = initializeApp(firebaseConfig);
+    initializeAppCheck(app,{provider:new ReCaptchaEnterpriseProvider("6LeK148tAAAAAFB7WHIcd5d4UExuvIubTaZC0HD5"),isTokenAutoRefreshEnabled:true});
+    const auth = getAuth(app), storage = getStorage(app), provider = new GoogleAuthProvider();
+    provider.setCustomParameters({prompt:"select_account"});
+    const $ = (s) => document.querySelector(s);
+    const ui = {login:$("#loginView"),dashboard:$("#dashboard"),loginButton:$("#loginButton"),logout:$("#logoutButton"),loginNotice:$("#loginNotice"),notice:$("#notice"),gallery:$("#gallery"),count:$("#photoCount"),eventStorage:$("#eventStorage"),totalStorage:$("#totalStorage"),bar:$("#storageBar"),refresh:$("#refreshButton"),download:$("#downloadButton"),delete:$("#deleteButton"),dialog:$("#deleteDialog"),confirmDelete:$("#confirmDelete")};
+    $("#eventId").textContent = EVENT_CONFIG.id; $("#deleteEventName").textContent = EVENT_CONFIG.id;
+    let photos = [];
+
+    const formatBytes = (n) => n < 1024*1024 ? `${Math.round(n/1024)} KB` : n < 1024*1024*1024 ? `${(n/1024/1024).toFixed(1)} MB` : `${(n/1024/1024/1024).toFixed(2)} GB`;
+    const setNotice = (text,type="") => {ui.notice.textContent=text;ui.notice.className=`notice ${type}`};
+    const setBusy = (button,busy,label) => {button.disabled=busy;if(!button.dataset.label)button.dataset.label=button.textContent;button.innerHTML=busy?`<span class="spinner"></span>${label}`:button.dataset.label};
+
+    async function recursiveItems(folderRef) {
+      const result = await listAll(folderRef); let items = [...result.items];
+      for (const prefix of result.prefixes) items = items.concat(await recursiveItems(prefix));
+      return items;
+    }
+
+    async function loadGallery() {
+      setBusy(ui.refresh,true,"Actualizando"); setNotice("Leyendo las fotos…");
+      try {
+        const [eventItems,allItems] = await Promise.all([recursiveItems(ref(storage,`eventos/${EVENT_CONFIG.id}`)),recursiveItems(ref(storage,"eventos"))]);
+        const eventData = await Promise.all(eventItems.map(async(itemRef)=>{const [metadata,url]=await Promise.all([getMetadata(itemRef),getDownloadURL(itemRef)]);return {ref:itemRef,metadata,url}}));
+        const totalMetadata = await Promise.all(allItems.map(getMetadata));
+        photos = eventData.sort((a,b)=>(b.metadata.timeCreated||"").localeCompare(a.metadata.timeCreated||""));
+        const eventBytes = photos.reduce((sum,p)=>sum+p.metadata.size,0), totalBytes = totalMetadata.reduce((sum,m)=>sum+m.size,0);
+        ui.count.textContent=photos.length;ui.eventStorage.textContent=formatBytes(eventBytes);ui.totalStorage.textContent=formatBytes(totalBytes);ui.bar.style.width=`${Math.min(100,totalBytes/FREE_REFERENCE_BYTES*100)}%`;
+        renderGallery(); setNotice(photos.length?"Galería actualizada.":"Todavía no hay fotos en este evento.",photos.length?"ok":"");
+      } catch(error){console.error(error);setNotice("No pudimos leer Storage. Revisá el acceso y las reglas.","bad");}
+      finally{setBusy(ui.refresh,false)}
+    }
+
+    function renderGallery(){
+      ui.gallery.innerHTML="";
+      if(!photos.length){ui.gallery.innerHTML='<div class="empty">Cuando los invitados suban fotos, aparecerán acá.</div>';ui.download.disabled=true;ui.delete.disabled=true;return}
+      ui.download.disabled=false;ui.delete.disabled=false;
+      photos.forEach((photo,index)=>{const card=document.createElement("article");card.className="photo";const name=photo.metadata.customMetadata?.originalName||photo.ref.name;const date=photo.metadata.timeCreated?new Date(photo.metadata.timeCreated).toLocaleString("es-AR"):"";card.innerHTML=`<img loading="lazy" alt="Foto ${index+1}"><div class="photo-info"><div class="photo-name"></div><div class="photo-meta">${formatBytes(photo.metadata.size)} · ${date}</div><a download>Descargar original</a></div>`;card.querySelector("img").src=photo.url;card.querySelector(".photo-name").textContent=name;const link=card.querySelector("a");link.href=photo.url;link.download=name;ui.gallery.appendChild(card)});
+    }
+
+    async function downloadAll(){
+      if(!photos.length)return;setBusy(ui.download,true,"Preparando ZIP");setNotice("Descargando originales y armando el ZIP…");
+      try{
+        const inputs=photos.map((photo,index)=>({name:photo.metadata.customMetadata?.originalName||`foto-${String(index+1).padStart(3,"0")}.${photo.ref.name.split(".").pop()}`,input:fetch(photo.url),lastModified:new Date(photo.metadata.timeCreated||Date.now())}));
+        const blob=await downloadZip(inputs).blob();const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=`taleika-${EVENT_CONFIG.id}.zip`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),30000);setNotice("ZIP preparado. Verificá la carpeta Descargas.","ok");
+      }catch(error){console.error(error);setNotice("No pudimos crear el ZIP. Probá nuevamente con una conexión estable.","bad")}
+      finally{setBusy(ui.download,false)}
+    }
+
+    async function deleteAll(){
+      ui.dialog.close();setBusy(ui.delete,true,"Eliminando");setNotice(`Eliminando 0 de ${photos.length}…`);
+      try{for(let i=0;i<photos.length;i++){await deleteObject(photos[i].ref);setNotice(`Eliminando ${i+1} de ${photos.length}…`)}setNotice("Todas las fotos del evento fueron eliminadas.","ok");await loadGallery()}
+      catch(error){console.error(error);setNotice("La eliminación se interrumpió. Actualizá para ver qué archivos quedan.","bad")}
+      finally{setBusy(ui.delete,false)}
+    }
+
+    ui.loginButton.addEventListener("click",async()=>{ui.loginNotice.textContent="";try{await signInWithPopup(auth,provider)}catch(error){console.error(error);ui.loginNotice.textContent="No pudimos iniciar sesión.";ui.loginNotice.className="notice bad"}});
+    ui.logout.addEventListener("click",()=>signOut(auth));ui.refresh.addEventListener("click",loadGallery);ui.download.addEventListener("click",downloadAll);ui.delete.addEventListener("click",()=>ui.dialog.showModal());$("#cancelDelete").addEventListener("click",()=>ui.dialog.close());ui.confirmDelete.addEventListener("click",deleteAll);
+    onAuthStateChanged(auth,async(user)=>{
+      const allowed=user?.email?.toLowerCase()===ADMIN_EMAIL;
+      if(user&&!allowed){await signOut(auth);ui.loginNotice.textContent="Esta cuenta no está autorizada.";ui.loginNotice.className="notice bad";return}
+      ui.login.hidden=allowed;ui.dashboard.hidden=!allowed;ui.logout.hidden=!allowed;if(allowed)loadGallery();
+    });
+  </script>
+</body>
+</html>

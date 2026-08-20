@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null
+             && request.auth.token.email_verified == true
+             && request.auth.token.email == "ferpache8@gmail.com";
+    }
+
+    match /eventos/{eventoId}/{usuarioId}/{archivoId} {
+      allow create: if request.auth != null
+                    && request.auth.uid == usuarioId
+                    && request.resource.size <= 30 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+  }
+}
