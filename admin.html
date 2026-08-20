@@ -131,9 +131,16 @@
     async function downloadAll(){
       if(!photos.length)return;setBusy(ui.download,true,"Preparando ZIP");setNotice("Descargando originales y armando el ZIP…");
       try{
-        const inputs=photos.map((photo,index)=>({name:photo.metadata.customMetadata?.originalName||`foto-${String(index+1).padStart(3,"0")}.${photo.ref.name.split(".").pop()}`,input:fetch(photo.url),lastModified:new Date(photo.metadata.timeCreated||Date.now())}));
-        const blob=await downloadZip(inputs).blob();const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=`taleika-${EVENT_CONFIG.id}.zip`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),30000);setNotice("ZIP preparado. Verificá la carpeta Descargas.","ok");
-      }catch(error){console.error(error);setNotice("No pudimos crear el ZIP. Probá nuevamente con una conexión estable.","bad")}
+        const inputs=await Promise.all(photos.map(async(photo,index)=>{
+          const name=photo.metadata.customMetadata?.originalName||`foto-${String(index+1).padStart(3,"0")}.${photo.ref.name.split(".").pop()}`;
+          const response=await fetch(photo.url);
+          if(!response.ok)throw new Error(`No se pudo descargar ${name} (HTTP ${response.status})`);
+          return {name,input:await response.blob(),lastModified:new Date(photo.metadata.timeCreated||Date.now())};
+        }));
+        const blob=await downloadZip(inputs).blob();
+        const objectUrl=URL.createObjectURL(blob),link=document.createElement("a");
+        link.href=objectUrl;link.download=`taleika-${EVENT_CONFIG.id}.zip`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(objectUrl),30000);setNotice("ZIP preparado. Verificá la carpeta Descargas.","ok");
+      }catch(error){console.error(error);setNotice(`No pudimos crear el ZIP (${error.message||"error desconocido"}).`,"bad")}
       finally{setBusy(ui.download,false)}
     }
 
