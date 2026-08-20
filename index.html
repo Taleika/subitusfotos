@@ -228,6 +228,16 @@
       elements.summary.className = `summary ${type}`;
     }
 
+    function uploadErrorMessage(error) {
+      const messages = {
+        "storage/unauthorized":"Firebase rechazó la carga por permisos. Revisá las reglas de Storage y App Check.",
+        "storage/retry-limit-exceeded":"La conexión tardó demasiado. Volvé a intentar.",
+        "storage/canceled":"La carga fue cancelada.",
+        "auth/operation-not-allowed":"El acceso anónimo no está habilitado en Firebase."
+      };
+      return messages[error?.code] || `No pudimos completar la carga (${error?.code || "error desconocido"}).`;
+    }
+
     async function uploadAll() {
       const pending = selected.filter((item) => !item.error && !item.uploaded);
       if (!pending.length) return;
@@ -243,7 +253,7 @@
         setSummary(`¡Listo! ${pending.length === 1 ? "Tu foto ya llegó" : "Tus fotos ya llegaron"} a Taleika.`, "ok");
       } catch (error) {
         console.error(error);
-        setSummary("No pudimos completar la carga. Revisá tu conexión e intentá nuevamente.", "bad");
+        setSummary(uploadErrorMessage(error), "bad");
       } finally {
         elements.clear.disabled = false; elements.choose.disabled = false; renderQueue();
       }
