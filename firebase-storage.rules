@@ -8,13 +8,16 @@ service firebase.storage {
              && request.auth.token.email == "ferpache8@gmail.com";
     }
 
+    // El panel necesita listar la carpeta raíz y todas sus subcarpetas.
+    match /eventos/{allPaths=**} {
+      allow read, delete: if isAdmin();
+    }
+
     match /eventos/{eventoId}/{usuarioId}/{archivoId} {
       allow create: if request.auth != null
                     && request.auth.uid == usuarioId
                     && request.resource.size <= 30 * 1024 * 1024
                     && request.resource.contentType.matches('image/.*');
-
-      allow read, delete: if isAdmin();
       allow update: if false;
     }
   }
